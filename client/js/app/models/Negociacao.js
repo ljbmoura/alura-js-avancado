@@ -1,8 +1,7 @@
-/**
- * Representa uma negociação do mundo real
- */
-
 class Negociacao {
+    /**
+     * Representa uma negociação do mundo real
+     */
     
     constructor(data, quantidade, valor)
     {
@@ -12,21 +11,23 @@ class Negociacao {
 	Object.freeze(this);
     }
     
+    /**
+     * @returns o volume da negociação, correspondendo ao valor multiplicado
+     *          pela quantidade
+     */
+    get volume () {
+	return (this._quantidade * this._valor).toFixed(2);
+    }
+
     get data() {
 	return new Date(this._data.getTime());
-    }
-    
-    get valor() {
-	return this._valor;
     }
     
     get quantidade() {
 	return this._quantidade;
     }
     
-    get volume () {
-	return (this._quantidade * this._valor).toFixed(2);
+    get valor() {
+	return this._valor;
     }
-    
-    
 }
