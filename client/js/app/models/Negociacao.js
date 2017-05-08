@@ -1,7 +1,7 @@
+/**
+ * Representa uma negociação do mundo real
+ */
 class Negociacao {
-    /**
-     * Representa uma negociação do mundo real
-     */
     
     constructor(data, quantidade, valor)
     {

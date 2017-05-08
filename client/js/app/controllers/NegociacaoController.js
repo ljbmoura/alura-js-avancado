@@ -10,34 +10,35 @@ class NegociacaoController {
 	this._inputQuantidade = qs('#quantidade');
 	this._inputValor = qs('#valor');
 	this._corpoTabela = qs('.table tbody');
+	this._negociacoes = new ListaNegociacoes();
 //	console.log('construtor');
     }
     
     adiciona (event) {
+//	console.info(event.type);
 	event.preventDefault();
 	
-// 	assumindo que a data chega aqui como uma string no formato aaaa-mm-dd
-//	console.log(typeof(this._inputData.value));
-//	let data = new Date(this._inputData.value.split('-'));
-//	let data = new Date(this._inputData.value.replace(/-/g, ','));
-//	let data = new Date(...this._inputData
-//	            .value.split('-')
-//	            .map(function(item, indice) {
-//	                return item - indice % 2;
-//	            }));
-	let data = new Date(...this._inputData
-	            .value.split('-')
-	            .map((item, indice) => item - indice % 2)
-	           );
+	let nova = this._criaNegociacao();
 	
-	let nova = new Negociacao(
-		data, 
-		this._inputQuantidade.value, 
-		this._inputValor.value);
-	
-	console.log(nova);
+	this._negociacoes.adiciona(nova);
+	console.info(this._negociacoes);
 	
 	this.montaLinhaGrid(nova);
+//	this._limpaFormulario();
+    }
+    
+    _criaNegociacao() {
+	
+	return new Negociacao(
+		DataHelper.textoParaData(this._inputData.value), 
+		this._inputQuantidade.value, 
+		this._inputValor.value);
+    }
+    
+    _limpaFormulario (){
+	this._inputData.value = '';
+	this._inputQuantidade.value = 0;
+	this._inputValor.value = 0.0;
 	
 	this._inputData.focus();
     }
@@ -47,7 +48,7 @@ class NegociacaoController {
 	var linha = document.createElement('tr');
 	
 	var colunaData = document.createElement('td');
-	colunaData.textContent = negociacao.data;
+	colunaData.textContent = DataHelper.dataParaTexto(negociacao.data);
 	linha.appendChild(colunaData);
 
 	var colunaQuant = document.createElement('td');
