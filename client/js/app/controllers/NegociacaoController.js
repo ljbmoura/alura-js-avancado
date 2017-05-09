@@ -9,8 +9,9 @@ class NegociacaoController {
 	this._inputData = qs('#data');
 	this._inputQuantidade = qs('#quantidade');
 	this._inputValor = qs('#valor');
-	this._corpoTabela = qs('.table tbody');
+//	this._corpoTabela = qs('.table tbody');
 	this._negociacoes = new ListaNegociacoes();
+	this._negociacoesView = new NegociacoesView(qs('#tabelaNegociacoes'))
 //	console.log('construtor');
     }
     
@@ -23,7 +24,8 @@ class NegociacaoController {
 	this._negociacoes.adiciona(nova);
 	console.info(this._negociacoes);
 	
-	this.montaLinhaGrid(nova);
+//	this.montaLinhaGrid(nova);
+	this._negociacoesView.update(this._negociacoes);
 //	this._limpaFormulario();
     }
     
@@ -43,27 +45,27 @@ class NegociacaoController {
 	this._inputData.focus();
     }
     
-    montaLinhaGrid (negociacao) {
-	
-	var linha = document.createElement('tr');
-	
-	var colunaData = document.createElement('td');
-	colunaData.textContent = DataHelper.dataParaTexto(negociacao.data);
-	linha.appendChild(colunaData);
-
-	var colunaQuant = document.createElement('td');
-	colunaQuant.textContent = negociacao.quantidade;
-	linha.appendChild(colunaQuant);
-
-	var colunaValor = document.createElement('td');
-	colunaValor.textContent = negociacao.valor;
-	linha.appendChild(colunaValor);
-	
-	var colunaVolume = document.createElement('td');
-	colunaVolume.textContent = negociacao.volume;
-	linha.appendChild(colunaVolume);
-
-	this._corpoTabela.appendChild(linha);
-
-    }
+//    montaLinhaGrid (negociacao) {
+//	
+//	var linha = document.createElement('tr');
+//	
+//	var colunaData = document.createElement('td');
+//	colunaData.textContent = DataHelper.dataParaTexto(negociacao.data);
+//	linha.appendChild(colunaData);
+//
+//	var colunaQuant = document.createElement('td');
+//	colunaQuant.textContent = negociacao.quantidade;
+//	linha.appendChild(colunaQuant);
+//
+//	var colunaValor = document.createElement('td');
+//	colunaValor.textContent = negociacao.valor;
+//	linha.appendChild(colunaValor);
+//	
+//	var colunaVolume = document.createElement('td');
+//	colunaVolume.textContent = negociacao.volume;
+//	linha.appendChild(colunaVolume);
+//
+//	this._corpoTabela.appendChild(linha);
+//
+//    }
 }
