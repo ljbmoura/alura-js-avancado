@@ -1,13 +1,9 @@
 /**
  * 
  */
-class NegociacoesView {
-    
-    constructor (elementoDOM) {
-	this._elementoDOM = elementoDOM;
-    }
-    
-    _template (modelo) {
+class NegociacoesView extends View {
+        
+    template (modelo) {
 	
 	let cabecalho = ` 
 	<table class="table table-hover table-bordered">
@@ -51,7 +47,7 @@ class NegociacoesView {
 		<td colspan='3'></td>
 		<td>${modelo.negociacoes.reduce(function (total, negociacao) {
 			return (total + negociacao.volume);
-		}, 0.00)}
+			}, 0.00)}
 		</td>
 	    </tfoot>
 	</table>`;
@@ -59,9 +55,4 @@ class NegociacoesView {
 	return cabecalho + linhas + rodape; 
     }
     
-    update (listaNegociacoes) {
-	
-	this._elementoDOM.innerHTML = this._template(listaNegociacoes);
-	
-    }
 }

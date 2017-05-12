@@ -9,10 +9,19 @@ class NegociacaoController {
 	this._inputData = qs('#data');
 	this._inputQuantidade = qs('#quantidade');
 	this._inputValor = qs('#valor');
-//	this._corpoTabela = qs('.table tbody');
+	
 	this._negociacoes = new ListaNegociacoes();
-	this._negociacoesView = new NegociacoesView(qs('#tabelaNegociacoes'))
-//	console.log('construtor');
+	this._mensagem = new Mensagem();
+
+	this._negociacoesView = new NegociacoesView(qs('#negociacoesView'));
+	this._negociacoesView.update(this._negociacoes);
+	
+	this._mensagemView = new MensagemView(qs('#mensagemView'));
+	this._mensagemView.update(this._mensagem);
+	
+	this._inputData.value = '2016-02-29';
+	this._inputQuantidade.value = 2;
+	this._inputValor.value = 10.25;
     }
     
     adiciona (event) {
@@ -22,11 +31,11 @@ class NegociacaoController {
 	let nova = this._criaNegociacao();
 	
 	this._negociacoes.adiciona(nova);
-	console.info(this._negociacoes);
+	this._mensagem.texto = 'Negociação adicionada com sucesso';
 	
-//	this.montaLinhaGrid(nova);
 	this._negociacoesView.update(this._negociacoes);
-//	this._limpaFormulario();
+	this._mensagemView.update(this._mensagem);
+	this._limpaFormulario();
     }
     
     _criaNegociacao() {
