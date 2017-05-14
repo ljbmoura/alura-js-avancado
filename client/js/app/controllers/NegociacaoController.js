@@ -10,11 +10,28 @@ class NegociacaoController {
 	this._inputQuantidade = qs('#quantidade');
 	this._inputValor = qs('#valor');
 	
-	this._negociacoes = new ListaNegociacoes();
+//	this._listaNegociacoes = new ListaNegociacoes(this, function (modelo) {
+//	this._listaNegociacoes = new ListaNegociacoes(function (modelo) {
+////	    console.log(this);
+//	    this._negociacoesView.update(modelo);
+//	});
+
+//	this._listaNegociacoes = new ListaNegociacoes(modelo =>
+//		this._negociacoesView.update(modelo));
+	let self = this;
+	this._listaNegociacoes = new ListaNegociacoes(
+		// padrão de projeto Observer
+		function (modelo) {
+	    		self._negociacoesView.update(modelo)
+		}
+	);
+	
+		
+	
 	this._mensagem = new Mensagem();
 
 	this._negociacoesView = new NegociacoesView(qs('#negociacoesView'));
-	this._negociacoesView.update(this._negociacoes);
+	this._negociacoesView.update(this._listaNegociacoes);
 	
 	this._mensagemView = new MensagemView(qs('#mensagemView'));
 	this._mensagemView.update(this._mensagem);
@@ -30,12 +47,20 @@ class NegociacaoController {
 	
 	let nova = this._criaNegociacao();
 	
-	this._negociacoes.adiciona(nova);
+	this._listaNegociacoes.adiciona(nova);
 	this._mensagem.texto = 'Negociação adicionada com sucesso';
 	
-	this._negociacoesView.update(this._negociacoes);
+//	this._negociacoesView.update(this._listaNegociacoes);
 	this._mensagemView.update(this._mensagem);
 	this._limpaFormulario();
+    }
+    
+    apaga(event) {
+//	event.preventDefault();
+	this._listaNegociacoes.esvazia();
+//	this._negociacoesView.update(this._listaNegociacoes);
+	this._mensagem.texto = 'Negociações apagadas com sucesso.';
+	this._mensagemView.update(this._mensagem);
     }
     
     _criaNegociacao() {
