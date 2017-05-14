@@ -10,24 +10,27 @@ class NegociacaoController {
 	this._inputQuantidade = qs('#quantidade');
 	this._inputValor = qs('#valor');
 	
-//	this._listaNegociacoes = new ListaNegociacoes(this, function (modelo) {
-//	this._listaNegociacoes = new ListaNegociacoes(function (modelo) {
-////	    console.log(this);
-//	    this._negociacoesView.update(modelo);
-//	});
-
-//	this._listaNegociacoes = new ListaNegociacoes(modelo =>
-//		this._negociacoesView.update(modelo));
-	let self = this;
-	this._listaNegociacoes = new ListaNegociacoes(
-		// padrão de projeto Observer
-		function (modelo) {
-	    		self._negociacoesView.update(modelo)
+	self = this;
+	this._listaNegociacoes = new Proxy(
+		new ListaNegociacoes(), 
+		{
+		    get (target, prop, receiver) {
+//		    get: function(target, prop, receiver) {
+		
+		    	if (['adiciona', 'esvazia'].includes(prop) 
+		    		&& typeof(target[prop]) == typeof(Function)) {
+		    	    return function () {
+		    		console.log(`funcao/método "${prop}" interceptada`);
+		    		Reflect.apply(target[prop], target, arguments);
+		    		self._negociacoesView.update(target);
+		    	    }
+		    	}
+//		    	console.log(`propriedade ${prop} lida`);
+		    	return Reflect.get(target, prop, receiver);
+		    }
 		}
 	);
-	
-		
-	
+	    
 	this._mensagem = new Mensagem();
 
 	this._negociacoesView = new NegociacoesView(qs('#negociacoesView'));
@@ -47,18 +50,15 @@ class NegociacaoController {
 	
 	let nova = this._criaNegociacao();
 	
-	this._listaNegociacoes.adiciona(nova);
+	this._listaNegociacoes.adiciona(nova);	
 	this._mensagem.texto = 'Negociação adicionada com sucesso';
-	
-//	this._negociacoesView.update(this._listaNegociacoes);
+
 	this._mensagemView.update(this._mensagem);
 	this._limpaFormulario();
     }
     
     apaga(event) {
-//	event.preventDefault();
 	this._listaNegociacoes.esvazia();
-//	this._negociacoesView.update(this._listaNegociacoes);
 	this._mensagem.texto = 'Negociações apagadas com sucesso.';
 	this._mensagemView.update(this._mensagem);
     }
@@ -78,28 +78,4 @@ class NegociacaoController {
 	
 	this._inputData.focus();
     }
-    
-//    montaLinhaGrid (negociacao) {
-//	
-//	var linha = document.createElement('tr');
-//	
-//	var colunaData = document.createElement('td');
-//	colunaData.textContent = DataHelper.dataParaTexto(negociacao.data);
-//	linha.appendChild(colunaData);
-//
-//	var colunaQuant = document.createElement('td');
-//	colunaQuant.textContent = negociacao.quantidade;
-//	linha.appendChild(colunaQuant);
-//
-//	var colunaValor = document.createElement('td');
-//	colunaValor.textContent = negociacao.valor;
-//	linha.appendChild(colunaValor);
-//	
-//	var colunaVolume = document.createElement('td');
-//	colunaVolume.textContent = negociacao.volume;
-//	linha.appendChild(colunaVolume);
-//
-//	this._corpoTabela.appendChild(linha);
-//
-//    }
 }
