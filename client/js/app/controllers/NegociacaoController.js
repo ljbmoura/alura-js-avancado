@@ -10,22 +10,20 @@ class NegociacaoController {
 	this._inputQuantidade = qs('#quantidade');
 	this._inputValor = qs('#valor');
 	
-	this._negociacoesView = new NegociacoesView(qs('#negociacoesView'));
 	this._listaNegociacoes = new Bind(
 		new ListaNegociacoes(),
-		this._negociacoesView,
-		['adiciona','esvazia']);
+		new NegociacoesView(qs('#negociacoesView')),
+		'adiciona','esvazia');
 //	this._listaNegociacoes = ProxyFactory.create (
 //		new ListaNegociacoes()
 //		,['adiciona', 'esvazia']
 //		, (modelo) => this._negociacoesView.update(modelo));
 //	this._negociacoesView.update(this._listaNegociacoes);
 	
-	this._mensagemView = new MensagemView(qs('#mensagemView'));
 	this._mensagem = new Bind (
 		new Mensagem(),
-		this._mensagemView,
-		['texto']);
+		new MensagemView(qs('#mensagemView')),
+		'texto');
 //	this._mensagem = ProxyFactory.create(
 //		new Mensagem()
 //		, ['texto']
